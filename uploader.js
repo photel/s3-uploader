@@ -39,7 +39,8 @@ const postData = async () => {
   });
   console.log('Response: ', response.data)
   console.log('Uploading: ', targetFile)
-  let binary = atob(targetFile(',')[1]) //use atob to decode base-64 encoded string
+  let binary = atob(targetFile.split(',')[1]) //use atob to decode base-64 encoded string
+  console.log('binary is ', binary);
   let array = []
   for (let i = 0; i < binary.length; i++) {
     array.push(binary.charCodeAt(i))
