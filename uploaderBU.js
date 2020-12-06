@@ -9,17 +9,6 @@ const fileField = document.querySelector('input[type="file"]');
 const uploadedFileItem = document.querySelector('#uploaded_file');
 let targetFile;
 
-const rows = [
-  ['customer_id', 'customer_address', 'trn_id', 'trn_date', 'trn_amount'],
-  ['C1', '1 Smith Street, London', 'T31', '03/16/2017', '100'],
-  ['C2', '2 Smith Street, London', 'T32', '03/16/2017', '200'],
-  ['C2', '2 Smith Street, London', 'T33', '04/7/2017', '50'],
-];
-
-
-let csvContent = "data:text/csv;charset=utf-8," 
-  + rows.map(e => e.join("|")).join("\n");
-
 // const triggerUpload = () => {
 //   formData.append('transaction', fileField.files[0]);
 // };
@@ -42,7 +31,7 @@ let csvContent = "data:text/csv;charset=utf-8,"
 // }
 
 const postData = async () => {
-  // targetFile = fileField.files[0];
+  targetFile = fileField.files[0];
   console.log('Posting data')
   // Get the presigned URL
   const response = await axios({
@@ -50,14 +39,14 @@ const postData = async () => {
     url: API_ENDPOINT
   });
   console.log('Response: ', response.data)
-  console.log('Uploading: ', csvContent)
-  let binary = atob(csvContent.split(',')[1]) //use atob to decode base-64 encoded string
+  console.log('Uploading: ', targetFile)
+  let binary = atob(targetFile.split(',')[1]) //use atob to decode base-64 encoded string
   console.log('binary is ', binary);
   let array = []
   for (let i = 0; i < binary.length; i++) {
     array.push(binary.charCodeAt(i))
   }
-  let blobData = new Blob([new Uint8Array(array)], {type: 'text/plain'})
+  let blobData = new Blob([new Uint8Array(array)], {type: 'text/csv'})
   console.log('Uploading to: ', response.data.uploadURL)
   const result = await fetch(response.data.uploadURL, {
     method: 'PUT',
@@ -85,3 +74,24 @@ const tester = () => {
   let blobData = new Blob([new Uint8Array(array)], {type: 'text/plain'})
   console.log('blobData is: ', blobData);
 }
+
+const createFile = (file) => {
+  console.log('fired createFile with file: ', file);
+  // var image = new Image()
+  let reader = new FileReader();
+  if (file) {
+    reader.onload = (event) => {
+      console.log('length: ', event.target.result.includes('data:text/plain'))
+      if (!event.target.result.includes('data:text/plain')) {
+        return alert('Wrong file type - Text files only.')
+      }
+      if (event.target.result.length > MAX_FILE_SIZE) {
+        return alert('File is loo large - 1Mb maximum')
+      }
+      targetFile = event.target.result
+    }
+    const output = reader.readAsDataURL(file);
+    console.log('output is: ', output);
+    return output
+  }
+};
