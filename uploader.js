@@ -51,13 +51,13 @@ const postData = async () => {
   });
   console.log('Response: ', response.data)
   console.log('Uploading: ', csvContent)
-  // let binary = csvContent.split(',')[1];
-  // console.log('binary is ', binary);
-  // let array = []
-  // for (let i = 0; i < binary.length; i++) {
-  //   array.push(binary.charCodeAt(i))
-  // }
-  let blobData = new Blob([new Uint8Array(csvContent)], {type: 'text/plain'})
+  let binary = csvContent.split(',')[1];
+  console.log('binary is ', binary);
+  let array = []
+  for (let i = 0; i < binary.length; i++) {
+    array.push(binary.charCodeAt(i))
+  }
+  let blobData = new Blob([new Uint8Array(array)], {type: 'text/plain'})
   console.log('Uploading to: ', response.data.uploadURL);
   console.log('blobData type: ', blobData.type);
   console.log('blobData: ', blobData);
