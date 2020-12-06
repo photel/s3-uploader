@@ -2,55 +2,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GeoData bulk projection transformation service</title>
+    <title>A2 Transaction monitoring service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:type" content= "website" />
     <meta property="og:url" content="http://..."/>
-    <meta property="og:site_name" content="Geo-D Transformer" />
+    <meta property="og:site_name" content="A2 Transaction monitoring service" />
   </head>
   <body>
     <div class="container">
       <div class="header clearfix">
-        <h3 class="text-muted">Bulk GeoData projection transformation service</h3>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6 offset-lg-3 col-xs-12">
-          <form id="contact-form" method="post">
-            <div class="form-group">
-              <h4>Name:</h4>
-              <input type="text" style="height:35px;" id="name-input" placeholder="Enter name here…" class="form-control" style="width:100%;" /><br/>
-              <h4>Email:</h4>
-              <input type="email" style="height:35px;" id="email-input" placeholder="Enter email here…" class="form-control" style="width:100%;"/><br/>
-              <h4>How can we help you?</h4>
-              <textarea id="description-input" rows="3" placeholder="Enter your message…" class="form-control" style="width:100%;"></textarea><br/>
-              <div class="g-recaptcha" data-sitekey="6Lc7cVMUAAAAAM1yxf64wrmO8gvi8A1oQ_ead1ys" class="form-control" style="width:100%;"></div>
-              <button type="button" onClick="submitToAPI(event)" class="btn btn-lg btn-success" style="margin-top:20px;">Submit</button>
-            </div>
-          </form>
-        </div>
+        <h3 class="text-muted">A2 Transaction monitoring service</h3>
       </div>
 
       <div class="jumbotron">
+        <div id="like_button_container"></div>
         <h1>Transaction management</h1>
         <p class="lead">It is the job of the accounts manager to make sure we don't blow all our cash reserves. Download the transaction monitoring template, record transactions in the table and upload it at the end of each day. You will be notified when we have spent too much.</p>
         <p>That is all.</p>
-        <p><a class="btn btn-lg btn-success" href="./template_file.csv" role="button" download>Get Template</a></p>
+        <p><a class="btn btn-info" href="./template_file.csv" role="button" download>Get Template</a></p>
+        
 
-        <div class="custom-file mt-3 mb-3">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Upload completed transaction form.</label>
-        </div>
-      </div>
+        <form id="contact-form" method="post">
+          <div class="form-group">
+            <div class="panel" style="padding:1rem">
+              <label class="custom-file-label" for="customFile">Upload completed transaction form.</label>
+              <input type="file" class="form-control-file" id="file_upload_input" accept="text/*">
+            </div>
+            <button type="button" onClick="getPresignedUrl()" id="trigger_upload" class="btn btn-success">Submit</button>
+          </div>
+        </form>
+
+      <p>Uploaded file: <span id="uploaded_file"></span></p>
 
       <footer class="footer">
         <p>&copy; <span id="date"></span> Photel</p>
       </footer>
 
-    </div> <!-- /container -->
+    </div>
 
     <script>
       const getYear = (elem) => {
@@ -59,5 +50,8 @@
       }
       getYear('date');
     </script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="uploader.js"></script>
   </body>
 </html>
