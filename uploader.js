@@ -58,7 +58,8 @@ const postData = async () => {
   //   array.push(binary.charCodeAt(i))
   // }
   let blobData = new Blob([new Uint8Array(csvContent)], {type: 'text/plain'})
-  console.log('Uploading to: ', response.data.uploadURL)
+  console.log('Uploading to: ', response.data.uploadURL);
+  console.log('blobData type: ', blobData.type);
   const result = await fetch(response.data.uploadURL, {
     method: 'PUT',
     body: blobData
