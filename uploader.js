@@ -30,7 +30,7 @@ const uploadedFileItem = document.querySelector('#uploaded_file');
 // }
 
 const postData = async () => {
-  const targetFile = fileField[0];
+  const targetFile = fileField.files[0];
   console.log('Posting data')
   // Get the presigned URL
   const response = await axios({
@@ -49,7 +49,7 @@ const postData = async () => {
   console.log('Uploading to: ', response.data.uploadURL)
   const result = await fetch(response.data.uploadURL, {
     method: 'PUT',
-    body: blobData
+    body: readBlob().fileData
   })
   console.log('Result: ', result)
   // Final URL for the user doesn't need the query string params
@@ -58,46 +58,53 @@ const postData = async () => {
 }
 
 
-// function readBlob() {
+function readBlob() {
 
-//   var files = document.querySelector('input[type="file"]');
-//   if (!files.length) {
-//     alert('Please select a file!');
-//     return;
-//   }
-//   var file = files[0];
+  var files = document.querySelector('input[type="file"]');
+  if (!files.length) {
+    alert('Please select a file!');
+    return;
+  }
+  var file = files[0];
 
-//   console.log(file.type);
+  console.log(file.type);
 
-//   var MIMEType = file.type;
+  var MIMEType = file.type;
 
-//   // decode base64 string, remove space for IE compatibility
-//   var reader = new FileReader();
+  // decode base64 string, remove space for IE compatibility
+  var reader = new FileReader();
 
-//   reader.onload = function(readerEvt) {
+  reader.onload = function(readerEvt) {
 
-// 		// This is done just for the proof of concept
-//     var binaryString = readerEvt.target.result;
-//     var base64 = btoa(binaryString);
-//     var blobfile = atob(base64);
-
-
-//     window.blobFromBlobFile = b64toBlob(base64, MIMEType, 512);
-//     window.blobURL = URL.createObjectURL(window.blobFromBlobFile);
+		// This is done just for the proof of concept
+    var binaryString = readerEvt.target.result;
+    var base64 = btoa(binaryString);
+    var blobfile = atob(base64);
 
 
-//     if (MIMEType != "image/jpeg") {
-//       var a = "<br /><a href=\"" + window.blobURL + "\">Blob File Link</a>";
-//     } else {
-//       var a = "<img src=" + window.blobURL + "\>";
-//     }
+    window.blobFromBlobFile = b64toBlob(base64, MIMEType, 512);
+    window.blobURL = URL.createObjectURL(window.blobFromBlobFile);
 
-//     document.getElementById('byte_content').innerHTML = a;
 
-//   };
+    if (MIMEType != "image/jpeg") {
+      var a = "<br /><a href=\"" + window.blobURL + "\">Blob File Link</a>";
+    } else {
+      var a = "<img src=" + window.blobURL + "\>";
+    }
 
-//   reader.readAsBinaryString(file);
-// }
+    document.getElementById('byte_content').innerHTML = a;
+
+  };
+
+  reader.readAsBinaryString(file);
+
+  const output = {
+    fileData: window.blobFromBlobFile,
+    fileUrl: window.blobURL
+  };
+
+  return output;
+}
 
 // document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
 //   if (evt.target.tagName.toLowerCase() == 'button') {
@@ -109,26 +116,26 @@ const postData = async () => {
 //   readBlob();
 // }
 
-// function b64toBlob(b64Data, contentType, sliceSize) {
-//     contentType = contentType || '';
-//     sliceSize = sliceSize || 512;
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
 
-//     var byteCharacters = atob(b64Data);
-//     var byteArrays = [];
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
 
-//     for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-//         var slice = byteCharacters.slice(offset, offset + sliceSize);
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
 
-//         var byteNumbers = new Array(slice.length);
-//         for (var i = 0; i < slice.length; i++) {
-//             byteNumbers[i] = slice.charCodeAt(i);
-//         }
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
 
-//         var byteArray = new Uint8Array(byteNumbers);
+        var byteArray = new Uint8Array(byteNumbers);
 
-//         byteArrays.push(byteArray);
-//     }
+        byteArrays.push(byteArray);
+    }
 
-//     var blob = new Blob(byteArrays, {type: contentType});
-//     return blob;
-// }
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+}
