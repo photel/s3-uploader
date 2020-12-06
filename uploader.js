@@ -47,7 +47,11 @@ const postData = async () => {
   // console.log('Uploading to: ', response.data.uploadURL)
   const result = await fetch(response.data.uploadURL, {
     method: 'PUT',
-    body: fileField
+    // data: fileField.files[0],
+    // headers: {
+    //     'Content-Type': fileField.files[0].type
+    // },
+    body: fileField.files[0]
   })
   console.log('Result: ', result)
   // Final URL for the user doesn't need the query string params
