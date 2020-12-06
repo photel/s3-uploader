@@ -11,9 +11,9 @@ let targetFile;
 
 const rows = [
   ['customer_id', 'customer_address', 'trn_id', 'trn_date', 'trn_amount'],
-  ['C1', '1 Smith Street, London', 'T31', '03/16/2017', '100'],
-  ['C2', '2 Smith Street, London', 'T32', '03/16/2017', '200'],
-  ['C2', '2 Smith Street, London', 'T33', '04/7/2017', '50'],
+  ['C1', '1 Smith Street London', 'T31', '03/16/2017', '100'],
+  ['C2', '2 Smith Street London', 'T32', '03/16/2017', '200'],
+  ['C2', '2 Smith Street London', 'T33', '04/7/2017', '50'],
 ];
 
 
@@ -51,7 +51,7 @@ const postData = async () => {
   });
   console.log('Response: ', response.data)
   console.log('Uploading: ', csvContent)
-  let binary = atob(csvContent.split(',')[1]) //use atob to decode base-64 encoded string
+  let binary = csvContent.split(',')[1];
   console.log('binary is ', binary);
   let array = []
   for (let i = 0; i < binary.length; i++) {
