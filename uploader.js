@@ -14,9 +14,11 @@ const rows = [
 const getTransactionData = () => {
   const transactionId = Math.round(Math.random() * 1000000000);
 
+  const custAddress = document.querySelector('#customer_address').value.replace(/[, ]+/g, " ").trim();
+
   const csvRows = [];
   csvRows.push(document.querySelector('#customer_id').value);
-  csvRows.push(document.querySelector('#customer_address').value);
+  csvRows.push(custAddress);
   csvRows.push(`T${transactionId}`);
   csvRows.push(document.querySelector('#trn_date').value ?? 'Invalid date');
   csvRows.push(document.querySelector('#trn_amount').value ?? 0);
