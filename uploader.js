@@ -2,6 +2,7 @@
 const API_ENDPOINT = 'https://n6cakyv1dg.execute-api.eu-west-1.amazonaws.com/default/fileUploader';
 const MAX_FILE_SIZE = 1000000
 
+const transactionForm = document.querySelector('#transaction_form');
 const fileField = document.querySelector('input[type="file"]');
 const uploadedFileItem = document.querySelector('#uploaded_file');
 let targetFile;
@@ -59,21 +60,5 @@ const postData = async () => {
   // Final URL for the user doesn't need the query string params
   const linkUrl = response.data.uploadURL.split('?')[0];
   uploadedFileItem.innerHTML = linkUrl;
-}
-
-const tester = () => {
-  const targetFile = createFile(fileField.files[0]);
-  let reader = new FileReader();
-  reader.readAsDataURL(fileField.files[0]);
-  console.log('reader ', reader)
-
-  console.log('Uploading: ', targetFile)
-  let binary = atob(targetFile.split(',')[1]) //use atob to decode base-64 encoded string
-  console.log('binary is ', binary);
-  let array = []
-  for (let i = 0; i < binary.length; i++) {
-    array.push(binary.charCodeAt(i))
-  }
-  let blobData = new Blob([new Uint8Array(array)], {type: 'text/plain'})
-  console.log('blobData is: ', blobData);
+  transactionForm.reset();
 }
