@@ -2,9 +2,6 @@
 const API_ENDPOINT = 'https://n6cakyv1dg.execute-api.eu-west-1.amazonaws.com/default/fileUploader';
 const MAX_FILE_SIZE = 1000000
 
-const uploaderButton = document.querySelector('#trigger_upload');
-
-// const formData = new FormData();
 const fileField = document.querySelector('input[type="file"]');
 const uploadedFileItem = document.querySelector('#uploaded_file');
 let targetFile;
@@ -33,33 +30,9 @@ const generateCSV = (fnc) => {
   return csvContent;
 };
 
-
-
-// const triggerUpload = () => {
-//   formData.append('transaction', fileField.files[0]);
-// };
-
-// const getPresignedUrl = () => {
-//   axios.get(API_ENDPOINT)
-//   .then(function (response) {
-//     postData_test(response);
-//   })
-//   .catch(function (error) {
-//     console.error(error);
-//   })
-//   .then(function () {
-//     // add success / failure notification to view
-//   });
-// };
-
-// const postData_test = (payload) => {
-//   console.log(payload);
-// }
-
 const postData = async () => {
   const compiledCsv = generateCSV(getTransactionData());
   console.log('compiledCsv: ', compiledCsv);
-  // targetFile = fileField.files[0];
   console.log('Posting data')
   // Get the presigned URL
   const response = await axios({
