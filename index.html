@@ -19,21 +19,53 @@
 
       <div class="jumbotron">
         <div id="like_button_container"></div>
-        <h1>Transaction management</h1>
-        <p class="lead">It is the job of the accounts manager to make sure we don't blow all our cash reserves. Download the transaction monitoring template, record transactions in the table and upload it at the end of each day. You will be notified when we have spent too much.</p>
+        <p class="lead">It is your job to make sure the children of our wealthy clients do not spend all of their parents' money. Use the form to update transactions completed customers by close of business. You will be notified when a customer has spent too much.</p>
+        <p>An example file is available for download below to demonstrate how transactions are maintaind within the system.</p>
         <p>That is all.</p>
-        <p><a class="btn btn-info" href="./template_file.csv" role="button" download>Get Template</a></p>
+        <p><a class="btn btn-info" href="./template_file.csv" role="button" download>Get sample file</a></p>
         
-
-        <form id="contact-form" method="post">
-          <div class="form-group">
-            <div class="panel" style="padding:1rem">
-              <label class="custom-file-label" for="customFile">Upload completed transaction form.</label>
-              <input type="file" class="form-control-file" id="file_upload_input" accept="text/*">
+        <div class="panel" style="padding:1rem">
+          <h2>Upload transaction</h2>
+          <form id="contact-form" method="post">
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="customer_id">Customer ID</label>
+                  <select class="form-control" id="customer_id">
+                    <option>C1</option>
+                    <option>C2</option>
+                    <option>C3</option>
+                    <option>C4</option>
+                    <option>C5</option>
+                    <option>C6</option>
+                    <option>C7</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="customer_address">Customer address</label>
+                  <input type="text" class="form-control" id="customer_address">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="trn_date">Transaction date</label>
+                  <input type="date" class="form-control" id="trn_date">
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="trn_amount">Transaction amount</label>
+                  <input type="number" class="form-control" id="trn_amount">
+                </div>
+              </div>
             </div>
             <button type="button" onClick="postData()" id="trigger_upload" class="btn btn-success">Submit</button>
-          </div>
-        </form>
+          </form>
+        </div>
 
       <p>Uploaded file: <span id="uploaded_file"></span></p>
       <div id="byte_content"></div>

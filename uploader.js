@@ -2,7 +2,7 @@
 const API_ENDPOINT = 'https://n6cakyv1dg.execute-api.eu-west-1.amazonaws.com/default/fileUploader';
 const MAX_FILE_SIZE = 1000000
 
-const uploaderButton = document.querySelector('#trigger_upload');file_upload_input
+const uploaderButton = document.querySelector('#trigger_upload');
 
 // const formData = new FormData();
 const fileField = document.querySelector('input[type="file"]');
@@ -11,14 +11,29 @@ let targetFile;
 
 const rows = [
   ['customer_id', 'customer_address', 'trn_id', 'trn_date', 'trn_amount'],
-  ['C1', '1 Smith Street London', 'T31', '03/16/2017', '100'],
-  ['C2', '2 Smith Street London', 'T32', '03/16/2017', '200'],
-  ['C2', '2 Smith Street London', 'T33', '04/7/2017', '50'],
 ];
 
+const getTransactionData = () => {
+  const transactionId = Math.round(Math.random() * 1000000000);
 
-let csvContent = "data:text/csv;charset=utf-8," 
+  const csvRows = [];
+  csvRows.push(document.querySelector('#customer_id').value);
+  csvRows.push(document.querySelector('#customer_address').value);
+  csvRows.push(`T${transactionId}`);
+  csvRows.push(document.querySelector('#trn_date').value ?? 'Invalid date');
+  csvRows.push(document.querySelector('#trn_amount').value ?? 0);
+  return csvRows;
+};
+
+const generateCSV = (fnc) => {
+  rows.push(fnc);
+
+  let csvContent = "data:text/csv;charset=utf-8," 
   + rows.map(e => e.join("|")).join("\n");
+  return csvContent;
+};
+
+
 
 // const triggerUpload = () => {
 //   formData.append('transaction', fileField.files[0]);
@@ -42,6 +57,8 @@ let csvContent = "data:text/csv;charset=utf-8,"
 // }
 
 const postData = async () => {
+  const compiledCsv = generateCSV(getTransactionData());
+  console.log('compiledCsv: ', compiledCsv);
   // targetFile = fileField.files[0];
   console.log('Posting data')
   // Get the presigned URL
@@ -50,8 +67,8 @@ const postData = async () => {
     url: API_ENDPOINT
   });
   console.log('Response: ', response.data)
-  console.log('Uploading: ', csvContent)
-  let binary = csvContent.split(',')[1];
+  console.log('Uploading: ', compiledCsv)
+  let binary = compiledCsv.split(',')[1];
   console.log('binary is ', binary);
   let array = []
   for (let i = 0; i < binary.length; i++) {
