@@ -21,7 +21,7 @@ const getTransactionData = () => {
   csvRows.push(custAddress);
   csvRows.push(`T${transactionId}`);
   csvRows.push(document.querySelector('#trn_date').value ?? 'Invalid date');
-  csvRows.push(document.querySelector('#trn_amount').value ?? 0);
+  csvRows.push(document.querySelector('#trn_amount').value*-1 ?? 0);
   return csvRows;
 };
 
