@@ -12,7 +12,8 @@ const rows = [
 ];
 
 const getTransactionData = () => {
-  const transactionId = Math.round(Math.random() * 1000000000);
+  const date = Math.floor(Date.now() / 1000);
+  const transactionId = `${Math.round(Math.random() * 1000000000)}${date}`;
 
   const custAddress = document.querySelector('#customer_address').value.replace(/[, ]+/g, " ").trim();
 
