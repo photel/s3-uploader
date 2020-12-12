@@ -17,11 +17,13 @@ const getTransactionData = () => {
   const custAddress = document.querySelector('#customer_address').value.replace(/[, ]+/g, " ").trim();
 
   const csvRows = [];
+  const transactionBalance = parseFloat((document.querySelector('#trn_credit').value)) + parseFloat(document.querySelector('#trn_debit').value*-1);
   csvRows.push(document.querySelector('#customer_id').value);
   csvRows.push(custAddress);
   csvRows.push(`T${transactionId}`);
   csvRows.push(document.querySelector('#trn_date').value ?? 'Invalid date');
-  csvRows.push(document.querySelector('#trn_amount').value*-1 ?? 0);
+  csvRows.push(transactionBalance);
+  console.log('csvRows ',csvRows);
   return csvRows;
 };
 
